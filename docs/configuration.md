@@ -68,7 +68,18 @@ The global configuration created by the `init` command look like this:
       "FixHtmlAttachmentLinks": false,
       "WorkItemCreateRetryLimit": 5,
       "FilterWorkItemsThatAlreadyExistInTarget": true,
-      "PauseAfterEachWorkItem": false
+      "PauseAfterEachWorkItem": false,
+      "CaptureFieldsToHistory": {
+        "HeaderMessage": "Custom fields captured during migration",
+        "WorkItemFieldMappings": {
+          "*": {
+            "Some.Field.Id": "Some field display name"
+          },
+          "Product Backlog Item": {
+            "Another.Field.Id": "Another field display name"
+          },
+        }
+      }
     }
   ]
 }

@@ -344,7 +344,9 @@
     <Compile Include="Configuration\FieldMap\FieldtoFieldMapConfig.cs" />
     <Compile Include="Configuration\FieldMap\FieldValueMapConfig.cs" />
     <Compile Include="Configuration\FieldMap\IFieldMapConfig.cs" />
+    <Compile Include="Configuration\WorkItemFieldMappings.cs" />
     <Compile Include="Configuration\JsonCreationConverter.cs" />
+    <Compile Include="Configuration\WorkItemFieldsToHistoryConfig.cs" />
     <Compile Include="Configuration\Processing\WorkItemQueryMigrationConfig.cs" />
     <Compile Include="Configuration\Processing\FixGitCommitLinksConfig.cs" />
     <Compile Include="Configuration\Processing\TeamMigrationConfig.cs" />
