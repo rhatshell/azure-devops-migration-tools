@@ -12,8 +12,22 @@ It will migrate work items using a tip or replay migrator as well as Attachments
 
 - Migrate Work Items, Links, & Attachments
 - Restart will skip completed work items in Tip, and will filter completed revisions in replay.
+- CaptureFieldsToHistory can be used to capture data that may not be worth mapping, but worth capturing for posterity sake. It adds the content of each field specified to the discussion history
+```
+"CaptureFieldsToHistory": {
+    "HeaderMessage": "Custom fields captured during migration",
+    "WorkItemFieldMappings": {
+        "*": {
+            "Some.Field.Id": "Some field display name"
+        },
+        "Product Backlog Item": {
+            "Another.Field.Id": "Another field display name"
+        },
+    }
+}
+```
 
-##Params
+## Params
 
 | Parameter name                       | Type    | Description                              | Default Value                            |
 |--------------------------------------|---------|------------------------------------------|------------------------------------------|
@@ -37,4 +51,4 @@ It will migrate work items using a tip or replay migrator as well as Attachments
 | `OrderBit` | string | A work item query to affect the order in which the work items are migrated. Don't leave this empty. | [System.ChangedDate] desc
 | `SkipToFinalRevisedWorkItemType` | Boolean | If enabled, when a revision is found that changes the work item type it will use the most recent revision work item type when migrating the initial work item. This should only be enabled for migrations from Azure DevOps Service to Azure DevOps Server. | false
 | `CollapseRevisions` | Boolean | If enabled, all revisions except the most recent are collapsed into a JSON format and attached as an attachment. Requires ReplayRevisions to be enabled. | false
-
+| `CaptureFieldsToHistory` | Dictionary | If provided, allows fields to be captured in the discussion history. | false

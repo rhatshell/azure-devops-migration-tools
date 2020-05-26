@@ -1,4 +1,4 @@
-﻿using System;
+﻿ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -35,6 +35,7 @@ namespace VstsSyncMigrator.Engine.Configuration.Processing
         public bool PauseAfterEachWorkItem { get; set; }
         public int AttachmentMazSize { get; set; }
         public bool CollapseRevisions { get; set; }
+        public WorkItemFieldsToHistoryConfig CaptureFieldsToHistory { get; set; }
 
         /// <inheritdoc />
         public bool IsProcessorCompatible(IReadOnlyList<ITfsProcessingConfig> otherProcessors)

@@ -432,6 +432,11 @@ namespace VstsSyncMigrator.Engine
                     var history = new StringBuilder();
                     history.Append(
                         $"This work item was migrated from a different project or organization. You can find the old version at <a href=\"{reflectedUri}\">{reflectedUri}</a>.");
+                    var fieldDataForDiscussionHistory = CaptureFieldDataForDiscussionHistory(sourceWorkItem, targetWorkItem);
+                    if(fieldDataForDiscussionHistory.Length > 0)
+                    {
+                        history.AppendLine(fieldDataForDiscussionHistory);
+                    }
                     targetWorkItem.History = history.ToString();
                     SaveWorkItem(targetWorkItem);
 
@@ -461,6 +466,32 @@ namespace VstsSyncMigrator.Engine
             }
 
             return targetWorkItem;
+        }
+
+        private string CaptureFieldDataForDiscussionHistory(WorkItem source, WorkItem target)
+        {
+            if(_config.CaptureFieldsToHistory != null && _config.CaptureFieldsToHistory.WorkItemFieldMappings.Count > 0)
+            {
+                var message = new StringBuilder();
+                var fields = _config
+                    .CaptureFieldsToHistory
+                    .WorkItemFieldMappings
+                    .SelectMany(entry => entry.Key == "*" || entry.Key == source.Type.Name ? entry.Value : new Dictionary<string, string>());
+
+                fields.ForEach(field =>
+                {
+                    if (source.Fields.Contains(field.Key) && source.Fields[field.Key].Value as string != string.Empty && source.Fields[field.Key].Value != null)
+                    {
+                        message.AppendLine($"<h4 style=\"margin: 10px 0;\">{field.Value}:</h4>{source.Fields[field.Key].Value}");
+                    }
+                });
+                if(message.Length > 0)
+                {
+                    message.Insert(0, $"<h2>{_config.CaptureFieldsToHistory.HeaderMessage}</h2>");
+                }
+                return message.ToString();
+            }
+            return String.Empty;
         }
 
         private WorkItem CreateWorkItem_Shell(Project destProject, WorkItem currentRevisionWorkItem, string destType)
