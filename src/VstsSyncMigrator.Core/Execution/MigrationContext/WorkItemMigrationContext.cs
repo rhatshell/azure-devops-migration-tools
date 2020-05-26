@@ -21,6 +21,7 @@ using System.ServiceModel.Channels;
 using System.IO;
 using Newtonsoft.Json;
 using VstsSyncMigrator.Core;
+using VstsSyncMigrator.Core.Diagnostics;
 
 namespace VstsSyncMigrator.Engine
 {
@@ -328,7 +329,7 @@ namespace VstsSyncMigrator.Engine
                     finalDestType =
                        me.WorkItemTypeDefinitions[finalDestType].Map(last);
                 }
-                
+
                 //If work item hasn't been created yet, create a shell
                 if (targetWorkItem == null)
                 {
@@ -433,12 +434,14 @@ namespace VstsSyncMigrator.Engine
                     history.Append(
                         $"This work item was migrated from a different project or organization. You can find the old version at <a href=\"{reflectedUri}\">{reflectedUri}</a>.");
                     var fieldDataForDiscussionHistory = CaptureFieldDataForDiscussionHistory(sourceWorkItem, targetWorkItem);
-                    if(fieldDataForDiscussionHistory.Length > 0)
+                    if (fieldDataForDiscussionHistory.Length > 0)
                     {
                         history.AppendLine(fieldDataForDiscussionHistory);
                     }
                     targetWorkItem.History = history.ToString();
                     SaveWorkItem(targetWorkItem);
+
+                    PrintFieldDifferential(sourceWorkItem, targetWorkItem);
 
                     attachmentOMatic.CleanUpAfterSave(targetWorkItem);
                     TraceWriteLine(sourceWorkItem, $"...Saved as {targetWorkItem.Id}");
@@ -466,6 +469,13 @@ namespace VstsSyncMigrator.Engine
             }
 
             return targetWorkItem;
+        }
+
+        private void PrintFieldDifferential(WorkItem source, WorkItem target)
+        {
+            var comparer = new WorkItemComparer();
+            var comparison = comparer.Compare(source, target);
+            Trace.WriteLine(comparer.ToCSV(comparison));
         }
 
         private string CaptureFieldDataForDiscussionHistory(WorkItem source, WorkItem target)

@@ -366,6 +366,9 @@
     <Compile Include="Configuration\Processing\WorkItemUpdateConfig.cs" />
     <Compile Include="Configuration\Processing\WorkItemMigrationConfig.cs" />
     <Compile Include="Configuration\TeamProjectConfig.cs" />
+    <Compile Include="Diagnostics\WorkItemComparer.cs" />
+    <Compile Include="Diagnostics\WorkItemComparison.cs" />
+    <Compile Include="Diagnostics\FieldComparison.cs" />
     <Compile Include="Execution\Exceptions\UnknownLinkTypeException.cs" />
     <Compile Include="Execution\FieldMaps\FieldMapBase.cs" />
     <Compile Include="Execution\FieldMaps\FieldMergeMap.cs" />
