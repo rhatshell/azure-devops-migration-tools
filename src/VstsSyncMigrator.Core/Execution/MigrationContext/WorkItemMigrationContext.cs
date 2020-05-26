@@ -480,14 +480,14 @@ namespace VstsSyncMigrator.Engine
 
                 fields.ForEach(field =>
                 {
-                    if (source.Fields.Contains(field.Key))
+                    if (source.Fields.Contains(field.Key) && source.Fields[field.Key].Value as string != string.Empty && source.Fields[field.Key].Value != null)
                     {
-                        message.AppendLine($"<b>{field.Value}</b>{source.Fields[field.Key].Value}");
+                        message.AppendLine($"<h4 style=\"margin: 10px 0;\">{field.Value}:</h4>{source.Fields[field.Key].Value}");
                     }
                 });
                 if(message.Length > 0)
                 {
-                    message.Insert(0, $"<h3>{_config.CaptureFieldsToHistory.HeaderMessage}</h3>");
+                    message.Insert(0, $"<h2>{_config.CaptureFieldsToHistory.HeaderMessage}</h2>");
                 }
                 return message.ToString();
             }
